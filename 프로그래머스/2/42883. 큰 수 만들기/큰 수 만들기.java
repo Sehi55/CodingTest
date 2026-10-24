@@ -18,6 +18,7 @@ class Solution {
             if(i == array.size()-1){
                 array.remove(i);
                 i--;
+                cnt++;
             }
             if(i+1<array.size() && array.get(i)< array.get(i+1)){
                 array.remove(i);
