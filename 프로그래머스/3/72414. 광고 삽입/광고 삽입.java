@@ -23,7 +23,7 @@ class Solution {
         
         int index = 0;
         long max = sum[gap-1];
-        for(int i = 1; i<n+1-gap;i++){
+        for(int i = 0; i<n+1-gap;i++){
             if(max < sum[i+gap]- sum[i]){
                 max = sum[i+gap]- sum[i];
                 index = i+1;
