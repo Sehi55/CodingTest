@@ -8,8 +8,7 @@ class Solution {
 
         
         List<Integer> array = number.chars().map(c-> c-'0').boxed().collect(Collectors.toCollection(ArrayList::new));
-        List<Integer> array2 = number.chars().map(c-> c-'0').boxed().collect(Collectors.toCollection(ArrayList::new));
-        Collections.sort(array2);
+        
        
         
         int cnt = 0;
