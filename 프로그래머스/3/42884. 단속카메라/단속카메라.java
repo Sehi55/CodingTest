@@ -1,17 +1,19 @@
 import java.util.*;
 class Solution {
     public int solution(int[][] routes) {
-        int answer = 0;
-        PriorityQueue<List<Integer>> queue = new PriorityQueue<>((a,b)-> a.get(1)-b.get(1));
-        for(int i =0; i<routes.length;i++){
-            queue.add(List.of(routes[i][0],routes[i][1]));
+        PriorityQueue<int[]> q = new PriorityQueue<>((a,b) -> 
+            Integer.compare(a[1],b[1])
+        );
+        for(int i = 0;i<routes.length;i++){
+            q.offer(routes[i]);
         }
-        Integer x = -30001;
-        while(queue.size()>0){
-            List<Integer> list = queue.poll();
-            if(list.get(0)>x){
+        int[] standard =  q.poll();
+        int answer = 1;   
+        for(int i = 1; i<routes.length;i++){
+            int[] tmp = q.poll();
+            if(standard[1]< tmp[0]) {
                 answer++;
-                x = list.get(1);
+                standard = tmp;
             }
         }
         return answer;
