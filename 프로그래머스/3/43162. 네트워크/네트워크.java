@@ -2,24 +2,59 @@ import java.util.*;
 class Solution {
     
     public int solution(int n, int[][] computers) {
-        int answer=0;
-        boolean[] visited = new boolean[computers.length];
+        UnionFind uf = new UnionFind(n);
         
-        for(int i =0; i<computers.length;i++){
-            if(!visited[i]){
-                dfs(i, computers, visited);
-                answer++;
+        for(int i = 0; i< n;i++){
+            for(int j = i+1;j<n;j++){
+                if(computers[i][j]==1)
+                    uf.union(i,j);
             }
+        }
+        int answer =0;
+        for(int i = 0; i<n; i++){
+            if(uf.find(i)==i) answer++;
         }
         return answer;
     }
-    public void dfs(int current, int[][] computers, boolean[] visited){
-        visited[current] = true;
-        for(int i = 0;i<computers.length;i++){
-            if(i!=current && computers[current][i]==1 && !visited[i]){
-                visited[i] = true;
-                dfs(i, computers, visited);
+    
+    
+    public class UnionFind{
+        int[] parent;
+        int[] ranked;
+        
+        UnionFind(int n ){
+            parent = new int[n];
+            ranked = new int[n];
+            
+            for(int i =0;i<n;i++){
+                parent[i] = i;
             }
+            
+        }
+        public int find(int x){
+            if(parent[x]==x)
+                return x;
+            
+            return parent[x] = find(parent[x]);
+        }
+        public boolean union(int x, int y){
+            int a = find(x);
+            int b = find(y);
+            
+            if(a==b)
+                return false;
+            
+            if(ranked[a]>ranked[b])
+                parent[b] = a;
+            else if (ranked[a]< ranked[b])
+                parent[a] = b;
+            else {
+                parent[b] = a;
+                ranked[a]++;
+                
+            }
+            return true;
         }
     }
+    
 }
