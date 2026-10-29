@@ -1,32 +1,35 @@
 import java.util.*;
 class Solution {
     public int solution(int[][] maps) {
+        int n = maps.length;
+        int m = maps[0].length;
+        int[] dx = new int[]{-1,1,0,0};
+        int[] dy = new int[]{0,0,-1,1};
         
-        Queue<List<Integer>> queue = new LinkedList<>();
-        int[] mv_y = {-1, 0, 1, 0};
-        int[] mv_x = {0, 1, 0, -1};
-        queue.add(List.of(0,0));
-        int N = maps.length;
-        int M = maps[0].length;
-        int[][] visited= new int[maps.length][maps[0].length] ;
-        visited[0][0] = 1;
-        while(queue.size()>0){
-            List<Integer> list = queue.poll();
-            
-            int y = list.get(0);
-            int x= list.get(1);
-            if(y==N-1 && x==M-1){
-                return visited[N-1][M-1];
+        Queue<int[]> queue = new ArrayDeque<>();
+        boolean[][] visited = new boolean[n][m];
+        
+        queue.offer(new int[]{0,0,1});
+        visited[0][0] = true;
+        while(!queue.isEmpty()){
+            int[] current = queue.poll();
+            int x = current[0];
+            int y = current[1];
+            int sum = current[2];
+            if(x==n-1 && y==m-1){
+                return sum;
             }
-            for(int i =0;i<4;i++){
-                if(x+mv_x[i]<0|| x+mv_x[i]>=M || y+mv_y[i]<0||y+mv_y[i]>=N || visited[y+mv_y[i]][x+mv_x[i]]!=0 || maps[y+mv_y[i]][x+mv_x[i]]==0){
+            
+            for(int i = 0; i<4;i++){
+                int nextX = x+dx[i];
+                int nextY = y+dy[i];
+                if(nextX<0|| nextX>n-1||nextY<0|| nextY>m-1 || visited[nextX][nextY] || maps[nextX][nextY]==0)
                     continue;
-                } else {
-                    queue.add(List.of(y+mv_y[i],x+mv_x[i]));
-                    visited[y+mv_y[i]][x+mv_x[i]]=visited[y][x]+1;
-                }
+                queue.offer(new int[]{nextX,nextY,sum+1});
+                visited[nextX][nextY]= true;
+                
             }
         }
         return -1;
-    }
+    } 
 }
